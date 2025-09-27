@@ -56,5 +56,3 @@ app.use('/auth', authController);
 app.listen(PORT, () => {
   console.log(`The express app is ready on port ${PORT}!`);
 });
-
-
