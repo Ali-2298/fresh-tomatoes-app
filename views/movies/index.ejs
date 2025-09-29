@@ -11,10 +11,6 @@
     <a href="/movies/new">Add a New Movie</a>
     <ul>
       <% movies.forEach((movie) => { %>
-      <li>
-        A movie in <%= listing.city %> owned by <%= listing.owner.username %>
-        <a href="/listings/<%= listing._id %>">View more details.</a>
-      </li>
       <%})%>
     </ul>
   </body>
