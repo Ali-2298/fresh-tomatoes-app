@@ -8,17 +8,49 @@
   <body>
     <%- include('../partials/_navbar.ejs') %>
     <h1>All movies</h1>
-    <a href="/movies/new">Add a New Movie</a>
-    <ul>
-      <% movies.forEach((movie) => { %>
-        <li>
-          <a href="/movies/<%= movie._id %>"><%= movie.title %></a> 
-          (<%= movie.year %>) - <%= movie.genre %> - <%= movie.runtime %> min
-          <% if (movie.avgRating > 0) { %>
-            - Rating: <%= movie.avgRating %>/5
-          <% } %>
-        </li>
-      <% }) %>
-    </ul>
+    
+    <% if (user && user.role === 'admin') { %>
+      <a href="/movies/new">Add a New Movie</a>
+    <% } %>
+
+    <h3>Search & Filter Movies</h3>
+    <form action="/movies" method="GET">
+      <label for="search">Search by Title:</label>
+      <input type="text" id="search" name="search" value="<%= filters.search || '' %>">
+      
+      <label for="genre">Genre:</label>
+      <input type="text" id="genre" name="genre" value="<%= filters.genre || '' %>">
+      
+      <label for="minRating">Min Rating:</label>
+      <select id="minRating" name="minRating">
+        <option value="">All</option>
+        <option value="1" <%= filters.minRating == 1 ? 'selected' : '' %>>1+</option>
+        <option value="2" <%= filters.minRating == 2 ? 'selected' : '' %>>2+</option>
+        <option value="3" <%= filters.minRating == 3 ? 'selected' : '' %>>3+</option>
+        <option value="4" <%= filters.minRating == 4 ? 'selected' : '' %>>4+</option>
+        <option value="5" <%= filters.minRating == 5 ? 'selected' : '' %>>5</option>
+      </select>
+      
+      <button type="submit">Filter</button>
+      <a href="/movies">Clear Filters</a>
+    </form>
+
+    <hr>
+
+    <% if (movies.length === 0) { %>
+      <p>No movies found.</p>
+    <% } else { %>
+      <ul>
+        <% movies.forEach((movie) => { %>
+          <li>
+            <a href="/movies/<%= movie._id %>"><%= movie.title %></a> 
+            (<%= movie.year %>) - <%= movie.genre %> - <%= movie.runtime %> min
+            <% if (movie.avgRating > 0) { %>
+              - Rating: <%= movie.avgRating %>/5
+            <% } %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
   </body>
 </html>

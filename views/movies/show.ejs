@@ -15,7 +15,7 @@
     <p><strong>Runtime:</strong> <%= movie.runtime %> min</p>
     <p><strong>Director:</strong> <%= movie.director %></p>
     <p><strong>Cast:</strong> <%= movie.cast %></p>
-    <p><strong>Average Rating:</strong> <%= movie.avgRating %>/5</p>
+    <p><strong>Average Rating:</strong> <%= movie.avgRating %>/5 (<%= movie.reviewId.length %> reviews)</p>
   </div>
 
   <% if (user && user.role === 'admin') { %>
@@ -27,7 +27,7 @@
 
   <hr>
 
-  <h2>Reviews (<%= movie.reviewId.length %>)</h2>
+  <h2>Reviews</h2>
 
   <% if (user && !userReview) { %>
     <h3>Leave a Review</h3>
@@ -51,13 +51,14 @@
 
       <button type="submit">Submit Review</button>
     </form>
+    <hr>
   <% } else if (user && userReview) { %>
     <p>You have already reviewed this movie.</p>
+    <hr>
   <% } else { %>
     <p><a href="/auth/sign-in">Sign in</a> to leave a review.</p>
+    <hr>
   <% } %>
-
-  <hr>
 
   <h3>All Reviews</h3>
   <% if (movie.reviewId.length === 0) { %>
