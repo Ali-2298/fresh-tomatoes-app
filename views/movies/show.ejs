@@ -1,46 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= listing.owner.username %>'s listing</title>
-  </head>
-  <body>
-    <%- include('../partials/_navbar.ejs') %>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= movie.title %></title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+  
+  <h1><%= movie.title %> (<%= movie.year %>)</h1>
+  
+  <div>
+    <p><strong>Genre:</strong> <%= movie.genre %></p>
+    <p><strong>Runtime:</strong> <%= movie.runtime %> min</p>
+    <p><strong>Director:</strong> <%= movie.director %></p>
+    <p><strong>Cast:</strong> <%= movie.cast %></p>
+    <p><strong>Average Rating:</strong> <%= movie.avgRating %>/5</p>
+  </div>
 
-    <h1>A listing in <%= listing.city %></h1>
-    <h2>Details</h2>
-    <p>House size: <%= listing.size%> sq ft</p>
-    <p>Price: <%= listing.price %> BHD</p>
-    <p>Street Address: <%= listing.streetAddress %></p>
-
-    <h2>Owner:</h2>
-    <% if (listing.owner._id.equals(user._id)) { %>
-    <p>You own this!</p>
-    <a href="/listings/<%= listing._id %>/edit">Edit this listing</a>
-    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-      <button type="submit">Delete this listing</button>
+  <% if (user && user.role === 'admin') { %>
+    <a href="/movies/<%= movie._id %>/edit">Edit Movie</a>
+    <form action="/movies/<%= movie._id %>?_method=DELETE" method="POST" style="display:inline;">
+      <button type="submit">Delete Movie</button>
     </form>
-    <% } else { %>
-    <p>You don't own this, <%= listing.owner.username %> does!</p>
-    <% } %>
+  <% } %>
 
-    <h2>Favourites</h2>
-    <p>Favourited by <%= listing.favouritedByUsers.length %> people.</p>
+  <hr>
 
-    <% if (userHasFavourited) { %>
-    <p>You've favourited ths listing!</p>
-        <form action="/listings/<%= listing._id %>/favourite-by/<%= user._id %>?_method=DELETE" method="POST">
-            <button type="submit">Unfavourite it</button>
-        </form>
-    <% } else { %>
-    <p>You haven't favourited this listing!</p>
-    <form
-      action="/listings/<%= listing._id %>/favourite-by/<%= user._id %>"
-      method="POST"
-    >
-      <button type="submit">Favourite it!</button>
+  <h2>Reviews (<%= movie.reviewId.length %>)</h2>
+
+  <% if (user && !userReview) { %>
+    <h3>Leave a Review</h3>
+    <form action="/reviews" method="POST">
+      <input type="hidden" name="movieId" value="<%= movie._id %>">
+      
+      <label for="rating">Rating:</label>
+      <select name="rating" id="rating" required>
+        <option value="">Select rating</option>
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Good</option>
+        <option value="3">3 - Average</option>
+        <option value="2">2 - Poor</option>
+        <option value="1">1 - Terrible</option>
+      </select>
+      <br><br>
+
+      <label for="review">Review:</label><br>
+      <textarea name="review" id="review" rows="5" cols="50" required></textarea>
+      <br><br>
+
+      <button type="submit">Submit Review</button>
     </form>
-    <% } %>
-  </body>
+  <% } else if (user && userReview) { %>
+    <p>You have already reviewed this movie.</p>
+  <% } else { %>
+    <p><a href="/auth/sign-in">Sign in</a> to leave a review.</p>
+  <% } %>
+
+  <hr>
+
+  <h3>All Reviews</h3>
+  <% if (movie.reviewId.length === 0) { %>
+    <p>No reviews yet. Be the first to review!</p>
+  <% } else { %>
+    <% movie.reviewId.forEach((review) => { %>
+      <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+        <p><strong><%= review.userId.username %></strong> - <%= review.rating %>/5 stars</p>
+        <p><%= review.review %></p>
+        <p><small><%= new Date(review.createdAt).toLocaleDateString() %></small></p>
+        
+        <% if (user && (user._id === review.userId._id.toString() || user.role === 'admin')) { %>
+          <a href="/reviews/<%= review._id %>/edit">Edit</a>
+          <form action="/reviews/<%= review._id %>?_method=DELETE" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %>
+      </div>
+    <% }) %>
+  <% } %>
+
+  <br>
+  <a href="/movies">Back to All Movies</a>
+</body>
 </html>

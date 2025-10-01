@@ -11,7 +11,14 @@
     <a href="/movies/new">Add a New Movie</a>
     <ul>
       <% movies.forEach((movie) => { %>
-      <%})%>
+        <li>
+          <a href="/movies/<%= movie._id %>"><%= movie.title %></a> 
+          (<%= movie.year %>) - <%= movie.genre %> - <%= movie.runtime %> min
+          <% if (movie.avgRating > 0) { %>
+            - Rating: <%= movie.avgRating %>/5
+          <% } %>
+        </li>
+      <% }) %>
     </ul>
   </body>
 </html>
