@@ -27,11 +27,18 @@ router.post('/sign-up', async (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   req.body.password = hashedPassword;
 
+  if (req.body.username === 'admin') {
+    req.body.role = 'admin';
+  } else {
+    req.body.role = 'user';
+  }
+
   const newUser = await User.create(req.body);
 
   req.session.user = {
     username: newUser.username,
-    _id: newUser._id
+    _id: newUser._id,
+    role: newUser.role 
   };
 
   req.session.save(() => {
@@ -55,6 +62,7 @@ router.post('/sign-in', async (req, res) => {
   req.session.user = {
     username: userInDatabase.username,
     _id: userInDatabase._id,
+    role: userInDatabase.role  
   };
 
   req.session.save(() => {
@@ -67,7 +75,5 @@ router.get("/sign-out", (req, res) => {
     res.redirect("/");
   });
 });
-
-
 
 module.exports = router;
