@@ -1,9 +1,19 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+
 <nav>
-    <% if (user) { %>
+  <a href="/" style="text-decoration: none;"><h3 style="display:inline; margin-right: 20px;">🍅 Fresh Tomatoes</h3></a>
+  <% if (user) { %>
     <a href="/movies">View all movies</a>
+    <% if (user.role === 'admin') { %>
+      <a href="/movies/new">Add Movie</a>
+    <% } %>
+    <span>Welcome, <%= user.username %>!</span>
     <a href="/auth/sign-out">Sign Out</a>
-    <%} else { %>
+  <% } else { %>
+    <a href="/movies">View all movies</a>
     <a href="/auth/sign-up">Sign Up</a>
     <a href="/auth/sign-in">Sign In</a>
-    <% } %>
+  <% } %>
 </nav>
+<hr>

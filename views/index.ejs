@@ -3,22 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+    <title>Fresh Tomatoes</title>
   </head>
   <body>
-    <% if (user) { %>
-    <h1>Welcome to the app, <%= user.username %>!</h1>
-    <p>
-      <a href="/movies">View all movies</a>
-      <a href="/auth/sign-out">Sign out</a>
-    </p>
-    <% } else { %>
-    <h1>Welcome to the app, guest.</h1>
-    <p>
-      <a href="/movies">View all movies</a>
-      <a href="/auth/sign-up">Sign up</a> or
-      <a href="/auth/sign-in">Sign in</a>
-    </p>
-    <% } %>
+    <%- include('./partials/_navbar.ejs') %>
+    <div class="container" style="text-align: center; margin-top: 50px;">
+      <h1 style="font-size: 3em;">🍅 Fresh Tomatoes 🍅</h1>
+      
+      <% if (user) { %>
+        <h2>Welcome back, <%= user.username %>!</h2>
+        <p>Ready to discover and review some movies?</p>
+        <p>
+          <a href="/movies" class="button">View all movies</a>
+          <a href="/auth/sign-out" class="button button-outline">Sign out</a>
+        </p>
+      <% } else { %>
+        <h2>Welcome, guest!</h2>
+        <p>Your ultimate movie review app</p>
+        <p>
+          <a href="/movies" class="button">View all movies</a>
+          <a href="/auth/sign-up" class="button">Sign up</a>
+          <a href="/auth/sign-in" class="button button-outline">Sign in</a>
+        </p>
+      <% } %>
+    </div>
   </body>
 </html>
