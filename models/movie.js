@@ -5,6 +5,10 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imageUrl: {
+  type: String,
+  default: ''
+},
   year: {
     type: Number,
     required: true,

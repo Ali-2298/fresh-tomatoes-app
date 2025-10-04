@@ -18,7 +18,7 @@ router.post('/sign-up', async (req, res) => {
 
   if (userInDatabase) {
     return res.send('Username or Password is invalid');
-  }
+  }admin
 
   if (req.body.password !== req.body.confirmPassword) {
     return res.send('Password and Confirm Password must match');

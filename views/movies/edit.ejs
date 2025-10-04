@@ -31,6 +31,9 @@
       <label for="cast">Cast:</label>
       <input type="text" id="cast" name="cast" value="<%= movie.cast %>" required>
 
+<label for="imageUrl">Poster Image URL (optional):</label>
+<input type="text" id="imageUrl" name="imageUrl" value="<%= movie.imageUrl %>">
+
       <button type="submit">Update Movie</button>
       <a href="/movies/<%= movie._id %>" class="button button-outline">Cancel</a>
     </form>

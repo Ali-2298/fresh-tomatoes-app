@@ -10,6 +10,10 @@
   
   <h1><%= movie.title %> (<%= movie.year %>)</h1>
   
+<% if (movie.imageUrl) { %>
+  <img src="<%= movie.imageUrl %>" alt="<%= movie.title %> poster" style="max-width: 300px; height: auto; margin: 20px 0;">
+<% } %>
+
   <div>
     <p><strong>Genre:</strong> <%= movie.genre %></p>
     <p><strong>Runtime:</strong> <%= movie.runtime %> min</p>
