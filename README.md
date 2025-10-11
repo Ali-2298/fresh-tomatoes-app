@@ -45,7 +45,11 @@ https://fresh-tomatoes-app-9d1e5ce3d1ec.herokuapp.com/
 
 ## Next Steps
 ⦁	Add posters for the movies in the list (thumbnails)
+
 ⦁	Add user profiles to be able to view all their reviews for any movie
+
 ⦁	Make the genre filter find any word that is there, rather than the exact wording.
+
 ⦁	Remove the "delete" and "edit" button for other people's reviews as an admin
+
 ⦁	Improve the images code, instead of using imgsrc, just use cloud storage.
